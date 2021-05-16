@@ -96,14 +96,12 @@ spec:
             - /usr/local/etc/haproxy/haproxy.cfg
           ports:
           {{- range $key, $value := .Values.containerPorts }}
-          {{- if eq $key "https" }}
             - name: {{ $key }}
               containerPort: {{ $value }}
               protocol: TCP
               {{- if $useHostPort }}
               hostPort: {{ index $hostPorts $key | default $value }}
               {{- end }}
-          {{- end }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

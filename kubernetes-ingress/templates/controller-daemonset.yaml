@@ -115,12 +115,14 @@ spec:
           {{- end }}
           ports:
           {{- range $key, $value := .Values.controller.containerPort }}
+          {{- if eq $key "https" }}
             - name: {{ $key }}
               containerPort: {{ $value }}
               protocol: TCP
               {{- if $useHostPort }}
               hostPort: {{ index $hostPorts $key | default $value }}
               {{- end }}
+          {{- end }}
           {{- end }}
           {{- range .Values.controller.service.tcpPorts }}
             - name: {{ .name }}-tcp
